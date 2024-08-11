@@ -1,9 +1,9 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/llmcloud-432002/demo-flask-app', '.']
+  args: ['build', '-t', 'gcr.io/llmcloud-432002/demo-flask-app:$COMMIT_SHA', '.']
 
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/llmcloud-432002/demo-flask-app']
+  args: ['push', 'gcr.io/llmcloud-432002/demo-flask-app:$COMMIT_SHA']
 
 - name: 'gcr.io/llmcloud-432002/demo-flask-app'
   entrypoint: 'bash'
@@ -19,12 +19,12 @@ steps:
    - 'deploy'
    - 'py-bq-load'
    - '--image'
-   - 'gcr.io/llmcloud-432002/demo-flask-app'
+   - 'gcr.io/llmcloud-432002/demo-flask-app:$COMMIT_SHA'
    - '--region'
    - 'us-central1'
    - '--allow-unauthenticated'
 images:
-- 'gcr.io/llmcloud-432002/demo-flask-app'
+- 'gcr.io/llmcloud-432002/demo-flask-app:$COMMIT_SHA'
 
 options:
   logging: CLOUD_LOGGING_ONLY
